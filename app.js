@@ -11,7 +11,9 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-console.log('**** inaajaaaaaaaaaaata is ****');
+app.use(express.static(__dirname + "/public"));
+
+
 // parse application/json
 app.use(bodyParser.json());
 
