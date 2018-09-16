@@ -1,26 +1,24 @@
 var express = require('express');
-var users = require('../module/personModule');
+var person = require('../module/personModule');
 
 
 
 //-Get Persons Data based on userid or email id or all userdata
-
 exports.getPersonInfo = function (req, res) {
-    // console.log('****===========token=========== ****', req.body);
-    var UserData = {};
+    var personData = {};
     if (req.body.email) {
-        UserData = {
+        personData = {
             email: req.body.email
         };
     } else if (req.body.userid) {
-        UserData = {
+        personData = {
             userid: req.body.userid
         };
     } else {
-        UserData = '';
+        personData = '';
     }
-    // console.log('****UserData ****', UserData);
-    users.userInfo(UserData, function (err, results) {
+    // console.log('****personData ****', personData);
+    person.personInfo(personData, function (err, results) {
         if (err) {
             logger.error({
                 err: err
@@ -34,8 +32,6 @@ exports.getPersonInfo = function (req, res) {
                 "error": 0,
                 "code": 200,
                 "Data": results,
-                "Auth": true,
-                "Token Data": token
             });
         }
     });
@@ -45,37 +41,23 @@ exports.getPersonInfo = function (req, res) {
 exports.createPersonInfo = function (req, res) {
     // console.log('**** req.body ****', req.body);
     var personInputData = {
-        "userid": req.body.userid,
-        "first_name": req.body.first_name,
-        "last_name": req.body.last_name,
+        "personid": req.body.id,
+        "name": req.body.name,
         "email": req.body.email,
+        "mobile": req.body.mobile,
         "address": req.body.address,
-        "status": req.body.status,
-        "password": req.body.password,
-        "userType": req.body.userType,
-        "otp": req.body.otp,
-        "dob": req.body.dob
     };
-    persons.registration(personInputData, function (err, result, EmailID) {
+    person.addPerson(personInputData, function (err, result) {
         if (err) {
             res.send({
                 "Error Code": 101,
                 "Error": err
             });
         } else {
-            // create a token
-            var token = jwt.sign({
-                email: EmailID,
-            }, config.secret, {
-                expiresIn: 86400 // expires in 24 hours
-            });
             res.send({
                 "error": 0,
                 "code": 200,
-                "Email": EmailID,
                 "Data": result,
-                "auth": true,
-                "Token": token
             });
         }
     });
@@ -83,11 +65,12 @@ exports.createPersonInfo = function (req, res) {
 
 
 //-Delete Person by id.
-exports.deleteUserInfo = function (req, res) {
+exports.deletePersonInfo = function (req, res) {
+    console.log('**** reqdeletePersonInfo body ****', req.body);
     var deletePersonData = {
-        email: req.body.email
-    }
-    users.deleteUser(deleteUserData.email, function (err, result) {
+        personid: req.body.personid
+    };
+    person.deletePerson(deletePersonData.personid, function (err, result) {
         if (err) {
             res.send({
                 'Error Code': 101,
@@ -101,12 +84,13 @@ exports.deleteUserInfo = function (req, res) {
         }
     });
 };
-//-Update Person by id.
-exports.deleteUserInfo = function (req, res) {
-    var deletePersonData = {
-        email: req.body.email
+
+//-Update Person Records.
+exports.updatePersonInfo = function (req, res) {
+    var updatePersonData = {
+        email: req.body.personid
     }
-    users.deleteUser(deleteUserData.email, function (err, result) {
+    perons.updatePerson(updatePersonData.email, function (err, result) {
         if (err) {
             res.send({
                 'Error Code': 101,

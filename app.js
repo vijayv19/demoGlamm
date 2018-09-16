@@ -20,23 +20,23 @@ app.use(bodyParser.json());
 
 // Create connection to db
 
-const sqlConnection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'password',
-    database: 'demoProject',
-});
+// const sqlConnection = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     password: 'password',
+//     database: 'demoProject',
+// });
 
 // Db Connectivity
 
-sqlConnection.connect(function (err) {
-    if (err) {
-        console.log('**** DB connection failed****', err);
-    } else {
-        console.log('**** DB connected successfully****');
+// sqlConnection.connect(function (err) {
+//     if (err) {
+//         console.log('**** DB connection failed****', err);
+//     } else {
+//         console.log('**** DB connected successfully****');
 
-    }
-});
+//     }
+// });
 
 // console.log('***process.env.NODE_ENV ****', app.settings.env);
 

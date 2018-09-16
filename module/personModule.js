@@ -1,5 +1,5 @@
 var express = require('express');
-// var database = require('../Database/database');
+var database = require('../Database/database');
 var _ = require('lodash');
 
 
@@ -40,7 +40,8 @@ module.exports.personInfo = function (personsData, callback) {
 };
 
 //Create new user.
-module.exports.registration = function (userData, callback) {
+module.exports.addPerson = function (userData, callback) {
+    console.log('**** userData userData ****', userData);
     database.connection.getConnection(function (err, connection) {
         if (err) {
             throw err;
@@ -64,7 +65,7 @@ module.exports.deletePerson = function (deleteData, callback) {
         if (err) {
             throw err;
         } else {
-            connection.query('DELETE FROM persons WHERE email = ?', deleteData, function (err, rows) {
+            connection.query('DELETE FROM persons WHERE personid = ?', deleteData, function (err, rows) {
                 if (err) {
                     callback(err, null);
                 } else {
@@ -81,7 +82,7 @@ module.exports.updatePerson = function (deleteData, callback) {
         if (err) {
             throw err;
         } else {
-            connection.query('update table persons set email = ', deleteData, function (err, rows) {
+            connection.query('update persons set email = ', deleteData, function (err, rows) {
                 if (err) {
                     callback(err, null);
                 } else {

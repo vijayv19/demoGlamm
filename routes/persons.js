@@ -9,7 +9,7 @@ var personcontroller = require('../Controller/personController');
 
 router.get('/findData', personcontroller.getPersonInfo);
 router.post('/createPersonData', personcontroller.createPersonInfo);
-// router.post('/updatePersonData', personcontroller.updatePersonInfo);
-router.delete('/deletePerson', personcontroller.deleteUserInfo);
+router.put('/updatePersonData', personcontroller.updatePersonInfo);
+router.post('/deletePerson', personcontroller.deletePersonInfo);
 
 module.exports = router;
