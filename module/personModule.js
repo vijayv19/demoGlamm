@@ -1,9 +1,9 @@
+// Module dependency
 var express = require('express');
 var database = require('../Database/database');
 var _ = require('lodash');
 
-
-//- Get User data by email,passing req through body.
+//- Get Person data by passing email or personid in req through body.
 module.exports.personInfo = function (personsData, callback) {
     database.connection.getConnection(function (err, connection) {
         if (err) {
@@ -14,18 +14,16 @@ module.exports.personInfo = function (personsData, callback) {
                 query = 'SELECT * FROM persons WHERE email = ?';
                 obj = personsData.email;
             } else if (personsData.userid) {
-                query = 'SELECT * FROM persons WHERE userid = ?';
+                query = 'SELECT * FROM persons WHERE personid = ?';
                 obj = personsData.userid;
             } else {
                 query = 'SELECT * FROM persons';
                 obj = personsData;
             }
-            // console.log('**** obj ****', obj);
             connection.query(query, obj, function (err, results) {
                 if (err) {
                     callback(err, null);
                 } else if (_.isEmpty(results)) {
-                    // results will have value null, if data is not available in the collection/table
                     callback(null, 'noDataFound');
                 } else {
                     callback(null, results);
@@ -36,9 +34,8 @@ module.exports.personInfo = function (personsData, callback) {
     });
 };
 
-//Create new user.
+//-Create new person.
 module.exports.addPerson = function (userData, callback) {
-    console.log('**** userData userData ****', userData);
     database.connection.getConnection(function (err, connection) {
         if (err) {
             throw err;
@@ -56,7 +53,7 @@ module.exports.addPerson = function (userData, callback) {
     });
 };
 
-// Delete User on the basis of email id
+//- Delete Person record on the basis of person id
 module.exports.deletePerson = function (deleteData, callback) {
     database.connection.getConnection(function (err, connection) {
         if (err) {
@@ -75,7 +72,6 @@ module.exports.deletePerson = function (deleteData, callback) {
 
 // Update Person Table Records.
 module.exports.updatePerson = function (updateData, callback) {
-    console.log('**** updateData ****', updateData);
     var myData = updateData.updateData;
     database.connection.getConnection(function (err, connection) {
         if (err) {

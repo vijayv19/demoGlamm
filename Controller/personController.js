@@ -1,7 +1,6 @@
+//Module dependency
 var express = require('express');
 var person = require('../module/personModule');
-
-
 
 //-Get Persons Data based on userid or email id or all userdata
 exports.getPersonInfo = function (req, res) {
@@ -17,7 +16,6 @@ exports.getPersonInfo = function (req, res) {
     } else {
         personData = '';
     }
-    // console.log('****personData ****', personData);
     person.personInfo(personData, function (err, results) {
         if (err) {
             logger.error({
@@ -27,7 +25,6 @@ exports.getPersonInfo = function (req, res) {
                 "Error": err,
             });
         } else {
-            // logger.info('Into the final response', results);
             res.send({
                 "error": 0,
                 "code": 200,
@@ -39,7 +36,6 @@ exports.getPersonInfo = function (req, res) {
 
 //- Create a new Person record.
 exports.createPersonInfo = function (req, res) {
-    // console.log('**** req.body ****', req.body);
     var personInputData = {
         "personid": req.body.personid,
         "name": req.body.name,
@@ -66,7 +62,6 @@ exports.createPersonInfo = function (req, res) {
 
 //-Delete Person by id.
 exports.deletePersonInfo = function (req, res) {
-    console.log('**** reqdeletePersonInfo body ****', req.body);
     var deletePersonData = {
         personid: req.body.personid
     };
@@ -87,12 +82,7 @@ exports.deletePersonInfo = function (req, res) {
 
 //-Update Person Records.
 exports.updatePersonInfo = function (req, res) {
-    console.log('**** update      req.body  ****', req.body);
-
-
     var update = req.body;
-    // var update = "update persons set address = 'andheri'  where personid = 344";
-
     person.updatePerson(update, function (err, result) {
         if (err) {
             res.send({
