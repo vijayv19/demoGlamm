@@ -23,9 +23,6 @@ module.exports.personInfo = function (personsData, callback) {
             // console.log('**** obj ****', obj);
             connection.query(query, obj, function (err, results) {
                 if (err) {
-                    logger.error({
-                        err: err
-                    }, 'Error Described');
                     callback(err, null);
                 } else if (_.isEmpty(results)) {
                     // results will have value null, if data is not available in the collection/table
@@ -77,12 +74,15 @@ module.exports.deletePerson = function (deleteData, callback) {
 };
 
 // Update Person Table Records.
-module.exports.updatePerson = function (deleteData, callback) {
+module.exports.updatePerson = function (updateData, callback) {
+    console.log('**** updateData ****', updateData);
+    var myData = updateData.updateData;
     database.connection.getConnection(function (err, connection) {
         if (err) {
             throw err;
         } else {
-            connection.query('update persons set email = ', deleteData, function (err, rows) {
+            var sql = "UPDATE persons set personid = ? , name = ? ,email = ? ,mobile = ? , address = ? where personid = ?";
+            connection.query(sql, [myData.personid, myData.name, myData.email, myData.mobile, myData.address, updateData.personid], function (err, rows) {
                 if (err) {
                     callback(err, null);
                 } else {

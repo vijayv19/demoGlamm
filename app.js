@@ -2,11 +2,12 @@
 
 var express = require('express');
 var mysql = require('mysql');
+var cors = require('cors')
 var personRouter = require('./routes/persons');
 var bodyParser = require('body-parser');
 
 var app = express();
-
+app.use(cors())
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -111,6 +112,7 @@ app.use(bodyParser.json());
 app.use('/Person', personRouter);
 
 
+console.log('**** inside function_name of app.js ****');
 
 // Listening on port 3002
 

@@ -41,7 +41,7 @@ exports.getPersonInfo = function (req, res) {
 exports.createPersonInfo = function (req, res) {
     // console.log('**** req.body ****', req.body);
     var personInputData = {
-        "personid": req.body.id,
+        "personid": req.body.personid,
         "name": req.body.name,
         "email": req.body.email,
         "mobile": req.body.mobile,
@@ -78,7 +78,7 @@ exports.deletePersonInfo = function (req, res) {
             });
         } else {
             res.send({
-                'Success': 200,
+                'code': 200,
                 'Data': result
             });
         }
@@ -87,10 +87,13 @@ exports.deletePersonInfo = function (req, res) {
 
 //-Update Person Records.
 exports.updatePersonInfo = function (req, res) {
-    var updatePersonData = {
-        email: req.body.personid
-    }
-    perons.updatePerson(updatePersonData.email, function (err, result) {
+    console.log('**** update      req.body  ****', req.body);
+
+
+    var update = req.body;
+    // var update = "update persons set address = 'andheri'  where personid = 344";
+
+    person.updatePerson(update, function (err, result) {
         if (err) {
             res.send({
                 'Error Code': 101,
@@ -98,7 +101,7 @@ exports.updatePersonInfo = function (req, res) {
             });
         } else {
             res.send({
-                'Success': 200,
+                'code': 200,
                 'Data': result
             });
         }
